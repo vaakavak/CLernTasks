@@ -2,14 +2,14 @@
 
 Console.WriteLine("Привет");
 Console.WriteLine("Ты здесь?");
-WriteError();
+WriteError("Нет соединения с интернетом.");
 Console.WriteLine("Странно...");
-WriteError();
+WriteError("Интернет не оплачен");
 
-static void WriteError()
+static void WriteError(string text)
 {
     ConsoleColor defaultColor = Console.ForegroundColor;
     Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("Нет соединения с интернетом.");
+    Console.WriteLine(text);
     Console.ForegroundColor = defaultColor;
 }
