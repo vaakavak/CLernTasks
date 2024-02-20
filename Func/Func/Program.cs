@@ -51,14 +51,40 @@
 
 
 
-int[] array = new int[5];
-array = EditArray(array, 2, 5);
-Console.WriteLine(array[2]);
+//int[] array = new int[5];
+//array = EditArray(array, 2, 5);
+//Console.WriteLine(array[2]);
 
 
-static int[] EditArray(int[] array, int index, int value)
+//static int[] EditArray(int[] array, int index, int value)
+//{
+//    array = new int[6];
+//    array[index] = value;
+//    return array;
+//}
+
+
+
+
+
+
+int[] array1 = new int[5];
+array1 = Resize(array1, 6);
+Console.WriteLine(array1.Length);
+
+
+static int[] Resize(int[] array, int size)
 {
-    array = new int[6];
-    array[index] = value;
+    int[] tempArray = new int[size];
+    for (int i = 0; i < array.Length; i++)
+    {
+        tempArray[i] = array[i];
+
+    }
+    array = tempArray;
     return array;
 }
+
+
+
+
