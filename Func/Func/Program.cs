@@ -1,18 +1,18 @@
 ﻿
 
-//Console.WriteLine("Привет");
-//Console.WriteLine("Ты здесь?");
-//WriteError("Нет соединения с интернетом.");
-//Console.WriteLine("Странно...");
-//WriteError("Интернет не оплачен");
+Console.WriteLine("Привет");
+Console.WriteLine("Ты здесь?");
+WriteError("Нет соединения с интернетом.", ConsoleColor.Green) ;
+Console.WriteLine("Странно...");
+WriteError("Интернет не оплачен", symbol: '@') ;
 
-//static void WriteError(string text)
-//{
-//    ConsoleColor defaultColor = Console.ForegroundColor;
-//    Console.ForegroundColor = ConsoleColor.Red;
-//    Console.WriteLine(text);
-//    Console.ForegroundColor = defaultColor;
-//}
+static void WriteError(string text, ConsoleColor color = ConsoleColor.Red, char symbol = '!')
+{
+    ConsoleColor defaultColor = Console.ForegroundColor;
+    Console.ForegroundColor = color;
+    Console.WriteLine(symbol + text);
+    Console.ForegroundColor = defaultColor;
+}
 
 
 
