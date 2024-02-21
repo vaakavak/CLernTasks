@@ -68,23 +68,43 @@
 
 
 
-int[] array1 = new int[5];
-array1 = Resize(array1, 6);
-Console.WriteLine(array1.Length);
-
-
-static int[] Resize(int[] array, int size)
+internal class Program
 {
-    int[] tempArray = new int[size];
-    for (int i = 0; i < array.Length; i++)
+    private static void Main(string[] args)
     {
-        tempArray[i] = array[i];
+        int[] array1 = new int[5];
+        int[,] array2 = new int[5, 5];
+        array1 = Resize(array1, 6);
+        array2 = Resize1(array2, 10, 10);
+        Console.WriteLine(array1.Length);
+        Console.WriteLine(array2.Length);
 
+
+        static int[] Resize(int[] array, int size)
+        {
+            int[] tempArray = new int[size];
+            for (int i = 0; i < array.Length; i++)
+            {
+                tempArray[i] = array[i];
+
+            }
+            array = tempArray;
+            return array;
+        }
+
+
+        static int[,] Resize1(int[,] array, int x, int y)
+        {
+            int[,] tempArray = new int[x, y];
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    tempArray[i, j] = array[i, j];
+                }
+            }
+            array = tempArray;
+            return array;
+        }
     }
-    array = tempArray;
-    return array;
 }
-
-
-
-
