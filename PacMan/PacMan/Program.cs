@@ -6,9 +6,94 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        char[,] map = null;
+        char[,] map = ReadMap("map.txt");
+        ConsoleKeyInfo pressedKey = new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false);
+        Console.CursorVisible = false;
 
-        string[] file = File.ReadAllLines("map.txt");
-        Console.WriteLine(file[0]);
+        int pacmanX = 1;
+        int pacmanY = 1;
+
+        while (true)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            DrawMap(map);
+
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(pacmanX, pacmanY);
+            Console.Write("@");
+            //Thread.Sleep(1000); //время отрисовки кадра
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(80, 0);
+            Console.Write(pressedKey.KeyChar);
+
+            pressedKey = Console.ReadKey();
+
+            HandleInput(pressedKey, ref pacmanX, ref pacmanY, map);
+        }
     }
-}
+    private static char[,] ReadMap(string path)
+    {
+        string[] file = File.ReadAllLines("map.txt"); // переменная которая хранит файл
+        char[,] map = new char[GetMaxLengthOfLine(file), file.Length];
+
+        for (int x = 0; x < map.GetLength(0); x++)
+        {
+            for (int y = 0; y < map.GetLength(1); y++)
+            {
+                map[x, y] = file[y][x];
+            }
+        }
+
+        return map;
+    }
+
+    private static void DrawMap(char[,] map)
+    {
+        for (int y = 0; y < map.GetLength(1); y++)
+        {
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                Console.Write(map[x, y]);
+            }
+            Console.WriteLine();
+        }
+
+    }
+
+    private static HandleInput(ConsoleKeyInfo pressedKey, ref int pacmanX, ref int pacmanY, char[,] map) //ConsoleKeyInfo - информация о нажатой клавише
+    {
+        if(pressedKey.Key == ConsoleKey.UpArrow)
+        {
+            pacmanY -= 1;
+        }
+        else if (pressedKey.Key == ConsoleKey.DownArrow)
+        {
+            pacmanY += 1;
+        }
+        else if (pressedKey.Key == ConsoleKey.LeftArrow)
+        {
+            pacmanY -= 1;
+        }
+        else if (pressedKey.Key == ConsoleKey.RightArrow)
+        {
+            pacmanY += 1;
+        }
+
+
+
+    }
+
+
+        private static int GetMaxLengthOfLine(string[] lines) // найти максимальную длину
+        {
+            int maxLength = lines[0].Length; //длина первой строчки
+            foreach (var line in lines) //перебираем все строчки
+            {
+                if (line.Length > maxLength)  //если длина строчки больше длины максимальной  
+                    maxLength = line.Length; // максимальная длина равна тому чо нашли
+            };
+            return maxLength;
+        }
+    }
