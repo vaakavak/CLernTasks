@@ -62,27 +62,41 @@ internal class Program
 
     }
 
-    private static HandleInput(ConsoleKeyInfo pressedKey, ref int pacmanX, ref int pacmanY, char[,] map) //ConsoleKeyInfo - информация о нажатой клавише
+    private static void HandleInput(ConsoleKeyInfo pressedKey, ref int pacmanX, ref int pacmanY, char[,] map) //ConsoleKeyInfo - информация о нажатой клавише
     {
-        if(pressedKey.Key == ConsoleKey.UpArrow)
+
+        int[] direction = GetDirection(pressedKey);
+        int nextPacmanPositionX = pacmanX + direction[0];
+        int nextPacmanPositionY = pacmanY + direction[1];
+
+        if (map[nextPacmanPositionX, nextPacmanPositionY] == ' ')
         {
-            pacmanY -= 1;
+            pacmanX = nextPacmanPositionX;
+            pacmanY = nextPacmanPositionY;
+        }
+
+    }
+
+    private static int[] GetDirection(ConsoleKeyInfo pressedKey)
+    {
+        int[] derection = { 0, 0 };
+        if (pressedKey.Key == ConsoleKey.UpArrow)
+        {
+            derection[1] = -1;
         }
         else if (pressedKey.Key == ConsoleKey.DownArrow)
         {
-            pacmanY += 1;
+            derection[1] = 1;
         }
         else if (pressedKey.Key == ConsoleKey.LeftArrow)
         {
-            pacmanY -= 1;
+            derection[0] = -1;
         }
         else if (pressedKey.Key == ConsoleKey.RightArrow)
         {
-            pacmanY += 1;
+            derection[0] = 1;
         }
-
-
-
+        return derection;
     }
 
 
