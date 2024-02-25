@@ -12,6 +12,7 @@ internal class Program
 
         int pacmanX = 1;
         int pacmanY = 1;
+        int score = 0;
 
         while (true)
         {
@@ -26,11 +27,11 @@ internal class Program
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(80, 0);
-            Console.Write(pressedKey.KeyChar);
+            Console.Write($"Счет: {score}");
 
             pressedKey = Console.ReadKey();
 
-            HandleInput(pressedKey, ref pacmanX, ref pacmanY, map);
+            HandleInput(pressedKey, ref pacmanX, ref pacmanY, map, ref score);
         }
     }
     private static char[,] ReadMap(string path)
@@ -62,18 +63,28 @@ internal class Program
 
     }
 
-    private static void HandleInput(ConsoleKeyInfo pressedKey, ref int pacmanX, ref int pacmanY, char[,] map) //ConsoleKeyInfo - информация о нажатой клавише
+    private static void HandleInput(ConsoleKeyInfo pressedKey, ref int pacmanX, ref int pacmanY, char[,] map, ref int score) //ConsoleKeyInfo - информация о нажатой клавише
     {
 
         int[] direction = GetDirection(pressedKey);
         int nextPacmanPositionX = pacmanX + direction[0];
         int nextPacmanPositionY = pacmanY + direction[1];
 
-        if (map[nextPacmanPositionX, nextPacmanPositionY] == ' ')
+        char nexCell = map[nextPacmanPositionX, nextPacmanPositionY];
+
+        if (nexCell == ' ' || nexCell == '.')
         {
             pacmanX = nextPacmanPositionX;
             pacmanY = nextPacmanPositionY;
+
+            if(nexCell == '.')
+            {
+                score++;
+                map[nextPacmanPositionX, nextPacmanPositionY] = ' ';
+            }
+
         }
+
 
     }
 
