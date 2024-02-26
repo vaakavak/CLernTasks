@@ -9,11 +9,14 @@ namespace Test222
 {
     public partial class Form1 : Form
     {
-        private int counter = 1; // Инициализация счетчика
+        private int counter; // Счетчик
+
+
 
         public Form1()
         {
             InitializeComponent();
+            InitializeCounter(); // Инициализация счетчика при запуске приложения
             string[] items = { "*",
                 "блокировка почтового ящика",
                 "блокировка пропуска сотрудника",
@@ -49,6 +52,35 @@ namespace Test222
             };
             comboBox1.Items.AddRange(items);
             label5.Text = "№: " + counter.ToString();
+
+        }
+        private void InitializeCounter()
+        {
+            // Прочитать последнее значение счетчика из файла Excel
+            using (var excelPackage = new ExcelPackage(new FileInfo("existing_file.xlsx")))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets.FirstOrDefault(); // Получить первый лист
+                if (worksheet != null)
+                {
+                    int lastRow = worksheet.Dimension.End.Row;
+                    if (lastRow > 1)
+                    {
+                        var cellValue = worksheet.Cells[lastRow, 1].Value; // Чтение значения из последней строки
+                        if (cellValue != null && int.TryParse(cellValue.ToString(), out int lastCounter))
+                        {
+                            counter = lastCounter; // Установка счетчика равным последнему значению
+                        }
+                    }
+                }
+            }
+
+            // Если не удалось прочитать значение из файла или файл пустой, начать счетчик с 1
+            if (counter == 0)
+            {
+                counter = 1;
+            }
+
+            label5.Text = "№: " + counter.ToString(); // Отображение счетчика
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -97,8 +129,8 @@ namespace Test222
             IncreaseCounter();
             comboBox1.Text = "";
             textBox1.Text = "";
-        
-    }
+
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
