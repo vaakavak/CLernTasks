@@ -51,6 +51,7 @@ namespace Test222
                 "удаление уволившихся сотрудников с портала"
             };
             comboBox1.Items.AddRange(items);
+            comboBox1.KeyDown += ComboBox1_KeyDown;
             label5.Text = "№: " + counter.ToString();
             dateTimePicker1.Value = DateTime.Now;
 
@@ -82,6 +83,22 @@ namespace Test222
             }
 
             label5.Text = "№: " + counter.ToString(); // Отображение счетчика
+        }
+
+        private void ComboBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Если пользователь нажал Enter и комбобокс пустой или в нем нет выбранного элемента
+            if (e.KeyCode == Keys.Enter && (string.IsNullOrEmpty(comboBox1.Text) || !comboBox1.Items.Contains(comboBox1.Text)))
+            {
+                // Добавляем введенное пользователем значение в список элементов комбобокса
+                comboBox1.Items.Add(comboBox1.Text);
+
+                // Очищаем текстовое поле комбобокса
+                comboBox1.Text = "";
+
+                // Предотвращаем продолжение обработки нажатия клавиши Enter
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
