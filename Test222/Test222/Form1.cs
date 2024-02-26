@@ -68,49 +68,37 @@ namespace Test222
             string textBoxValue = textBox1.Text;
             DateTime dateTimeValue = dateTimePicker1.Value;
 
-            using (var excelPackage = new ExcelPackage()) // Создание объекта ExcelPackage
+            using (var excelPackage = new ExcelPackage(new FileInfo("existing_file.xlsx"))) // Открытие существующего файла Excel
             {
-                // Добавление листа в книгу Excel
-                var worksheet = excelPackage.Workbook.Worksheets.Add("Данные");
+                var worksheet = excelPackage.Workbook.Worksheets.FirstOrDefault(); // Получение первого листа
 
-                // Получение номера последней строки
+                if (worksheet == null) // Если лист не найден, создайте новый
+                {
+                    worksheet = excelPackage.Workbook.Worksheets.Add("Данные");
+                    worksheet.Cells["A1"].Value = "№";
+                    worksheet.Cells["B1"].Value = "ComboBoxValue";
+                    worksheet.Cells["C1"].Value = "TextBoxValue";
+                    worksheet.Cells["D1"].Value = "DateTimeValue";
+                }
+
                 int lastRow = worksheet.Dimension.End.Row;
 
                 // Добавление новой строки
-                var newRow = worksheet.InsertRow(lastRow + 1, 1);
+                worksheet.Cells[lastRow + 1, 1].Value = lastRow; // Номер строки
+                worksheet.Cells[lastRow + 1, 2].Value = comboBoxValue;
+                worksheet.Cells[lastRow + 1, 3].Value = textBoxValue;
+                worksheet.Cells[lastRow + 1, 4].Value = dateTimeValue;
+                worksheet.Cells[lastRow + 1, 4].Style.Numberformat.Format = "dd.mm.yyyy";
 
-                // Запись данных в ячейки листа
-                //worksheet.Cells["A1"].Value = countBeforeSave;
-
-                //counter++; // Увеличение счетчика
-                //worksheet.Cells["B1"].Value = comboBoxValue;
-                //worksheet.Cells["C1"].Value = textBoxValue;
-                //worksheet.Cells["D1"].Value = dateTimeValue;
-                //worksheet.Cells["D1"].Style.Numberformat.Format = "dd.mm.yyyy";
-
-
-                //// Запись данных в новую строку
-                //newRow.Cells["A"].Value = comboBoxValue;
-                //newRow.Cells["B"].Value = textBoxValue;
-                //newRow.Cells["C"].Value = dateTimeValue;
-                //worksheet.Cells["D"].Style.Numberformat.Format = "dd.mm.yyyy";
-
-                // Запись данных в ячейки листа
-                worksheet.Cells[newRow.Row, 1].Value = comboBoxValue;
-                worksheet.Cells[newRow.Row, 2].Value = textBoxValue;
-                worksheet.Cells[newRow.Row, 3].Value = dateTimeValue;
-                worksheet.Cells["D" + newRow.Row].Style.Numberformat.Format = "dd.mm.yyyy";
-
-                // Сохранение книги Excel
+                // Сохранение изменений в файле Excel
                 excelPackage.Save();
-
-                //// Сохранение книги Excel
-                //excelPackage.SaveAs(new FileStream("data.xlsx", FileMode.Create));
             }
+
             IncreaseCounter();
             comboBox1.Text = "";
             textBox1.Text = "";
-        }
+        
+    }
 
         private void button2_Click(object sender, EventArgs e)
         {
