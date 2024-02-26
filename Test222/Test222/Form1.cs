@@ -52,6 +52,7 @@ namespace Test222
             };
             comboBox1.Items.AddRange(items);
             label5.Text = "№: " + counter.ToString();
+            dateTimePicker1.Value = DateTime.Now;
 
         }
         private void InitializeCounter()
