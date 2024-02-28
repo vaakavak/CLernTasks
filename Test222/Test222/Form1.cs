@@ -188,9 +188,9 @@ namespace Test222
             {
                 using (var excelPackage = new ExcelPackage(new FileInfo("existing_file.xlsx")))
                 {
-                    
+
                     var worksheet = excelPackage.Workbook.Worksheets.FirstOrDefault(); // Получить первый лист
-                    
+
                     if (worksheet != null)
                     {
                         int lastRow = worksheet.Dimension.End.Row;
@@ -200,7 +200,7 @@ namespace Test222
                             // Значение успешно прочитано
                         }
                     }
-                    
+
                 }
             }
 
@@ -213,6 +213,15 @@ namespace Test222
             // Создание письма с описанием значения счетчика
             try
             {
+                /*
+                 В этом примере мы используем класс ProcessStartInfo, 
+                чтобы указать исполняемый файл почтового клиента. 
+                После этого мы задаем параметры для отправки почтового 
+                сообщения в соответствии с mailto: схемой, используя адрес,
+                тему и тело письма. Далее мы запускаем процесс, который 
+                открывает почтовый клиент по умолчанию.
+                 */
+
                 // Создаем новый процесс
                 Process process = new Process();
 
@@ -231,12 +240,16 @@ namespace Test222
                 // Запускаем процесс
                 process.Start();
 
-                //MessageBox.Show("Почтовый клиент открыт с описанием значения счетчика.", "Отправка отчета", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Ошибка открытия почтового клиента: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
