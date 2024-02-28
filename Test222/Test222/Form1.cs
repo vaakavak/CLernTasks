@@ -1,8 +1,5 @@
-using System.Diagnostics.Metrics;
-using System.Net.Mail;
-using System.Windows.Forms;
+using System.Diagnostics;
 using OfficeOpenXml;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace Test222
@@ -180,6 +177,66 @@ namespace Test222
             counter++;
             label5.Text = "№: " + counter.ToString();
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Чтение последнего значения счетчика из файла Excel
+            int lastCounter = 0;
+
+            try
+            {
+                using (var excelPackage = new ExcelPackage(new FileInfo("existing_file.xlsx")))
+                {
+                    
+                    var worksheet = excelPackage.Workbook.Worksheets.FirstOrDefault(); // Получить первый лист
+                    
+                    if (worksheet != null)
+                    {
+                        int lastRow = worksheet.Dimension.End.Row;
+                        var cellValue = worksheet.Cells[lastRow, 1].Value; // Чтение значения из последней строки
+                        if (cellValue != null && int.TryParse(cellValue.ToString(), out lastCounter))
+                        {
+                            // Значение успешно прочитано
+                        }
+                    }
+                    
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка чтения счетчика из файла Excel: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Создание письма с описанием значения счетчика
+            try
+            {
+                // Создаем новый процесс
+                Process process = new Process();
+
+                // Задаем информацию о процессе
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+
+                // Указываем, что нужно открыть почтовый клиент по умолчанию
+                startInfo.FileName = "mailto:evgeniy.shilov@giprovostokneft.ru?subject=Количество заявок&body=Всего заявок за месяц: " + lastCounter;
+
+                // Указываем, что нужно использовать оболочку системы для открытия почтового клиента
+                startInfo.UseShellExecute = true;
+
+                // Применяем настройки процесса
+                process.StartInfo = startInfo;
+
+                // Запускаем процесс
+                process.Start();
+
+                //MessageBox.Show("Почтовый клиент открыт с описанием значения счетчика.", "Отправка отчета", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия почтового клиента: " + ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 

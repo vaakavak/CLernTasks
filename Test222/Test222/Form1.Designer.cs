@@ -38,6 +38,7 @@
             textBox1 = new TextBox();
             comboBox1 = new ComboBox();
             label5 = new Label();
+            button3 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -132,11 +133,22 @@
             label5.TabIndex = 9;
             label5.TextAlign = ContentAlignment.TopCenter;
             // 
+            // button3
+            // 
+            button3.Location = new Point(267, 347);
+            button3.Name = "button3";
+            button3.Size = new Size(183, 29);
+            button3.TabIndex = 10;
+            button3.Text = "Отправить отчет";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
             Controls.Add(label5);
             Controls.Add(comboBox1);
             Controls.Add(textBox1);
@@ -166,5 +178,6 @@
         private TextBox textBox1;
         private ComboBox comboBox1;
         private Label label5;
+        private Button button3;
     }
 }
