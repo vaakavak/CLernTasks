@@ -6,7 +6,16 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Copyright>Шилов Евгений</Copyright>
+    <PackageIcon>3d-cartoon-style-checklist-with-pen-icon.ico</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="bin\Release\net6.0-windows\3d-cartoon-style-checklist-with-pen-icon.ico">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.0.9" />
