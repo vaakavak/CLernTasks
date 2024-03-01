@@ -1,14 +1,25 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 
 
 internal class Program
 {
     private static void Main(string[] args)
     {
+        Console.CursorVisible = false;
+
         char[,] map = ReadMap("map.txt");
         ConsoleKeyInfo pressedKey = new ConsoleKeyInfo('w', ConsoleKey.W, false, false, false);
-        Console.CursorVisible = false;
+
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                pressedKey = Console.ReadKey();
+            }
+
+        });
 
         int pacmanX = 1;
         int pacmanY = 1;
@@ -17,6 +28,9 @@ internal class Program
         while (true)
         {
             Console.Clear();
+
+            HandleInput(pressedKey, ref pacmanX, ref pacmanY, map, ref score);
+
             Console.ForegroundColor = ConsoleColor.Blue;
             DrawMap(map);
 
@@ -29,9 +43,7 @@ internal class Program
             Console.SetCursorPosition(80, 0);
             Console.Write($"Счет: {score}");
 
-            pressedKey = Console.ReadKey();
-
-            HandleInput(pressedKey, ref pacmanX, ref pacmanY, map, ref score);
+            Thread.Sleep(1000);
         }
     }
     private static char[,] ReadMap(string path)
@@ -77,7 +89,7 @@ internal class Program
             pacmanX = nextPacmanPositionX;
             pacmanY = nextPacmanPositionY;
 
-            if(nexCell == '.')
+            if (nexCell == '.')
             {
                 score++;
                 map[nextPacmanPositionX, nextPacmanPositionY] = ' ';
@@ -111,14 +123,14 @@ internal class Program
     }
 
 
-        private static int GetMaxLengthOfLine(string[] lines) // найти максимальную длину
+    private static int GetMaxLengthOfLine(string[] lines) // найти максимальную длину
+    {
+        int maxLength = lines[0].Length; //длина первой строчки
+        foreach (var line in lines) //перебираем все строчки
         {
-            int maxLength = lines[0].Length; //длина первой строчки
-            foreach (var line in lines) //перебираем все строчки
-            {
-                if (line.Length > maxLength)  //если длина строчки больше длины максимальной  
-                    maxLength = line.Length; // максимальная длина равна тому чо нашли
-            };
-            return maxLength;
-        }
+            if (line.Length > maxLength)  //если длина строчки больше длины максимальной  
+                maxLength = line.Length; // максимальная длина равна тому чо нашли
+        };
+        return maxLength;
     }
+}
