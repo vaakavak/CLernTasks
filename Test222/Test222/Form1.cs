@@ -14,7 +14,7 @@ namespace Test222
         {
             InitializeComponent();
             InitializeCounter(); // Инициализация счетчика при запуске приложения
-            string[] items = { "*",
+            string[] items = { "*******",
                 "блокировка почтового ящика",
                 "блокировка пропуска сотрудника",
                 "блокировка учетной записи",
@@ -48,6 +48,7 @@ namespace Test222
                 "удаление уволившихся сотрудников с портала"
             };
             comboBox1.Items.AddRange(items);
+            comboBox1.SelectedIndex = 0; // Выбрать первый элемент по умолчанию
             comboBox1.KeyDown += ComboBox1_KeyDown;
             label5.Text = "№: " + counter.ToString();
             dateTimePicker1.Value = DateTime.Now;
