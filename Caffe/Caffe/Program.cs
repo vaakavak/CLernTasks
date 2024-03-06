@@ -10,6 +10,7 @@ namespace Caffe
     {
         static void Main(string[] args)
         {
+            Table[] tables = { new Table(1, 4), new Table(2, 6), new Table(4, 10) }; //создали столы в массиве
         }
     }
 
@@ -21,12 +22,12 @@ namespace Caffe
 
         public Table(int number, int maxPlaces) // конструктор со значениями для "создания стола"
         {
-            Number = number;    
+            Number = number;
             MaxPlaces = maxPlaces;
             FreePlaces = maxPlaces;
         }
 
     }
 
-    
+
 }
