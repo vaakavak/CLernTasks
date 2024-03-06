@@ -12,4 +12,21 @@ namespace Caffe
         {
         }
     }
+
+    class Table
+    {
+        public int Number; // количество ножек у стола
+        public int MaxPlaces; // количество мест которое можно занять за столом
+        public int FreePlaces; // свободные места которые остались за столом
+
+        public Table(int number, int maxPlaces) // конструктор со значениями для "создания стола"
+        {
+            Number = number;    
+            MaxPlaces = maxPlaces;
+            FreePlaces = maxPlaces;
+        }
+
+    }
+
+    
 }
