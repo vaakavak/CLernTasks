@@ -12,7 +12,7 @@ namespace Caffe
         {
             bool isOpen = true;
             Table[] tables = { new Table(1, 4), new Table(2, 6), new Table(4, 10) }; //создали столы в массиве
-        
+
             while (isOpen)
             {
                 Console.WriteLine("Администрирование кафе: \n");
@@ -20,6 +20,24 @@ namespace Caffe
                 for (int i = 0; i < tables.Length; i++)
                 {
                     tables[i].ShowInfo();
+                }
+
+                Console.Write("\nВведите номер стола");
+                int wishTable = Convert.ToInt32(Console.ReadLine()) - 1;
+                Console.WriteLine("\nВведите количество мест для брони");
+                int desiredPlace = Convert.ToInt32(Console.ReadLine());
+
+                bool isReservationCompleted = tables[wishTable].Reserve(desiredPlace);
+                //tables - выбираем стол, wishTable - который хотим забронировать(тоесть
+                //указываем его номер, desiredPlace - и пытаемся забронировать то количество мест которое хотим )
+
+                if (isReservationCompleted )
+                {
+                    Console.WriteLine("Бронь прошла успешно");
+                }
+                else
+                {
+                    Console.WriteLine("Бронь не прошла, не достаточно мест.");
                 }
 
                 Console.ReadKey();
@@ -44,6 +62,19 @@ namespace Caffe
         public void ShowInfo() // метод
         {                 // информация о столе
             Console.WriteLine($"Стол: {Number}. Свободно мест: {FreePlaces} из {MaxPlaces}.");
+        }
+
+        public bool Reserve(int place)
+        {
+            if (FreePlaces >= place) // хватает ли свободных мест
+            {
+                FreePlaces -= place; // если да то от свободных мест отнимаем желаемое количество мест
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }
