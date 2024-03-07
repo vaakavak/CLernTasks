@@ -1,25 +1,25 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Types;
+﻿using System;
+using Telegram.Bot;
 
 
-internal class Program
+namespace Giprovostokneft
 {
-    private static TelegramBotClient _botClient;
-    private static void Main(string[] args)
+    class Program
     {
-        _botClient = new TelegramBotClient("7142419618:AAEvA - MOJsRzh2tYQ2QeD1cCxl4E--9G7LM");
-        _botClient.OnMessage += Bot_OnMessage;
-        _botClient.StartReceiving();
+        private static ITelegramBotClient botClient;
 
-        Console.WriteLine("Bot started. Press any key to exit...");
+        static async Task Main(string[] args)
+        {
+            botClient = new TelegramBotClient("7142419618:AAEvA-MOJsRzh2tYQ2QeD1cCxl4E--9G7LM") { Timeout = TimeSpan.FromSeconds(10)};
 
-        // Отправляем приветственное сообщение при запуске бота
-        _botClient.SendTextMessageAsync("YOUR_CHAT_ID", "Привет!");
+            var me = botClient.GetMeAsync().Result;
+            Console.WriteLine($"Bot id: {me.Id}. Bot name {me.FirstName}");
 
-        Console.ReadKey();
+            botClient.OnMessage += Bot_OnMessage;
 
-        _botClient.StopReceiving();
-        
+            Console.ReadKey();
+        }
+
+
     }
-
 }

@@ -10,7 +10,21 @@ namespace Caffe
     {
         static void Main(string[] args)
         {
+            bool isOpen = true;
             Table[] tables = { new Table(1, 4), new Table(2, 6), new Table(4, 10) }; //создали столы в массиве
+        
+            while (isOpen)
+            {
+                Console.WriteLine("Администрирование кафе: \n");
+
+                for (int i = 0; i < tables.Length; i++)
+                {
+                    tables[i].ShowInfo();
+                }
+
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
     }
 
@@ -25,6 +39,11 @@ namespace Caffe
             Number = number;
             MaxPlaces = maxPlaces;
             FreePlaces = maxPlaces;
+        }
+
+        public void ShowInfo() // метод
+        {                 // информация о столе
+            Console.WriteLine($"Стол: {Number}. Свободно мест: {FreePlaces} из {MaxPlaces}.");
         }
 
     }
