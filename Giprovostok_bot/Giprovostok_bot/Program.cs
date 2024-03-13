@@ -1,25 +1,47 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Extensions.Polling;
 
-
-namespace Giprovostokneft
+class Program
 {
-    class Program
+    static readonly TelegramBotClient botClient = new TelegramBotClient("YOUR_BOT_TOKEN");
+    static CancellationTokenSource cts;
+
+    static void Main(string[] args)
     {
-        private static ITelegramBotClient botClient;
+        cts = new CancellationTokenSource();
+        botClient.StartReceiving(HandleUpdateAsync, HandleErrorAsync, cts.Token);
+        Console.ReadLine();
+        botClient.StopReceiving(cts.Token);
+    }
 
-        static async Task Main(string[] args)
+    async static Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+    {
+        if (update.Type == UpdateType.Message)
         {
-            botClient = new TelegramBotClient("7142419618:AAEvA-MOJsRzh2tYQ2QeD1cCxl4E--9G7LM") { Timeout = TimeSpan.FromSeconds(10)};
+            var message = update.Message;
+            if (message.Text != null)
+            {
+                switch (message.Text.ToLower())
+                {
+                    case "/start":
+                        await botClient.SendTextMessageAsync(message.Chat.Id, "Hello! Welcome to my bot.");
+                        break;
 
-            var me = botClient.GetMeAsync().Result;
-            Console.WriteLine($"Bot id: {me.Id}. Bot name {me.FirstName}");
-
-            botClient.OnMessage += Bot_OnMessage;
-
-            Console.ReadKey();
+                    default:
+                        await botClient.SendTextMessageAsync(message.Chat.Id, "Sorry, I didn't understand that.");
+                        break;
+                }
+            }
         }
+    }
 
-
+    async static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+    {
+        Console.Error.WriteLine(exception.Message);
     }
 }
