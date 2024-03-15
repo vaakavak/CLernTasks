@@ -21,5 +21,16 @@ namespace Words
         {
             Text = "Изучение слов";
         }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            О_програме программа = new О_програме();
+            программа.ShowDialog();
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
